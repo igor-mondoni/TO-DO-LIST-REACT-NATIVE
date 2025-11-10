@@ -1,0 +1,20 @@
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View } from 'react-native';
+
+export default function TodoFormInput() {
+  return (
+    <View style={styles.container}>
+      <Text>Componente de formulário do aplicativo TODOLIST</Text>
+      <StatusBar style="auto" />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#ff0000ff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
