@@ -8,9 +8,6 @@ export default function TodoFormInput() {
      * Exemplo de uso do provider criado para tratar os states referente aos itens do todo
      */
     const { state, addTodo, removeTodo } = useTodos()
-    useEffect(() => {
-        addTodo('Hello world', 1);
-    }, []);
     return (
         <View style={styles.container}>
             <Text>Componente de formulário do aplicativo TODOLIST</Text>

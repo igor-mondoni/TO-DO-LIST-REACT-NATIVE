@@ -3,18 +3,14 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useTodos } from '../../contexts/TodoContext';
 import { useEffect } from 'react';
 
-export default function TodoListItem() {
+export default function TodoListItem({ item }) {
     const { state, addTodo, removeTodo } = useTodos()
     useEffect(() => {
-        console.log(state);
-        addTodo('Adicionando todo',1);
-        console.log(state);
-
+        console.log(state)
     }, []);
     return (
-        <View style={styles.container}>
-            <Text>Componente de itens dos afazeres a colocar na tabela de itens</Text>
-            <StatusBar style="auto" />
+        <View>
+            <Text>{item.todotext} - {item.priority}</Text>
         </View>
     );
 }
