@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, Alert } from 'react-native';
 import { useTodos } from '../../contexts/TodoContext';
+
 type Todo = {
     todotext: string
     priority: number
@@ -64,21 +65,16 @@ export default function TodoFormInput() {
         </View>
     );
 }
+
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#F0F4F8',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        paddingTop: 10,
+        width: '100%',
     },
-
     formContainer: {
-        width: '96%',
+        width: '100%',
         padding: 24,
         backgroundColor: '#ffffff',
         borderRadius: 12,
-
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
