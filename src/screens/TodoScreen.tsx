@@ -4,7 +4,7 @@ import TodoListTable from '../components/TodoListTable/TodoListTable';
 import TodoFormInput from '../components/TodoFormInput/TodoFormInput';
 import TodoModalInputUpdate from '../components/TodoModalInputUpdate/TodoModalInputUpdate';
 import { useState } from 'react';
-import Constants from 'expo-constants'; // 1. Importar o Constants
+import Constants from 'expo-constants';
 
 export default function TodoScreen() {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -29,7 +29,6 @@ export default function TodoScreen() {
   );
 }
 
-// 2. Estilos de layout atualizados
 const styles = StyleSheet.create({
   container: {
     flex: 1,
