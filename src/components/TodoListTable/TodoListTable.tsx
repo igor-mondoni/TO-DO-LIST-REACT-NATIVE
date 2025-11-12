@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     marginTop: 20,
-    backgroundColor: '#F0F4F8', 
   },
   header: {
     fontSize: 24,
