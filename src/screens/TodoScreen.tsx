@@ -2,13 +2,27 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import TodoListTable from '../components/TodoListTable/TodoListTable';
 import TodoFormInput from '../components/TodoFormInput/TodoFormInput';
+import TodoModalInputUpdate from '../components/TodoModalInputUpdate/TodoModalInputUpdate';
+import { useState } from 'react';
 
 export default function TodoScreen() {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedItemData, setSelectedItemData] = useState({});
+  
+  const openModal = (item) => {
+    setIsModalVisible(true);
+    setSelectedItemData(item);
+  };
+  const closeModal = () => {
+    setIsModalVisible(false);
+    setSelectedItemData({});
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Tela principal do aplicativo TODOLIST</Text>
+      <TodoModalInputUpdate visible={isModalVisible} item={selectedItemData} onClose={closeModal}/>
       <TodoFormInput />
-      <TodoListTable />
+      <TodoListTable openModal={openModal}/>
       <StatusBar style="auto" />
     </View>
   );
