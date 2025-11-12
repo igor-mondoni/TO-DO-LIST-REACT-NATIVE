@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Modal, View, Text, Button, StyleSheet } from 'react-native';
 
 type Todo = {
@@ -9,19 +9,21 @@ type Todo = {
 
 type TodoModalProps = {
   visible: boolean;
-  item: Todo | null;
+  item: Todo;
   onClose: () => void;
 };
 
-export default function TodoModal({ visible, item, onClose }: TodoModalProps) {
+export default function TodoModalInputUpdate({ visible, item, onClose }: TodoModalProps) {
   if (!item) {
     return null;
   }
-
+  useEffect(() => {
+    console.log(visible)
+  },[visible,item])
   return (
     <Modal
       animationType="slide"
-      transparent={true}
+      transparent={false}
       visible={visible}
       onRequestClose={onClose}
     >

@@ -5,7 +5,7 @@ import TodoListItem from '../TodoListItem/TodoListItem';
 import { useTodos } from '../../contexts/TodoContext';
 import React from 'react';
 
-export default function TodoListTable() {
+export default function TodoListTable(  { openModal }) {
   const { state } = useTodos()
   return (
     <SafeAreaProvider>
@@ -14,7 +14,7 @@ export default function TodoListTable() {
           data={state.todos} 
           keyExtractor={(item,k) => k.toString()}
           renderItem={({ item }) => (
-            <TodoListItem item={item} />
+            <TodoListItem item={item} openModal={openModal} />
           )}
           ListHeaderComponent={() => (
             <Text style={styles.header}>Meus Afazeres</Text>
