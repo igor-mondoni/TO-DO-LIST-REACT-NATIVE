@@ -1,20 +1,61 @@
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TextInput, Button, Alert } from 'react-native';
 import { useTodos } from '../../contexts/TodoContext';
-
+type Todo = {
+    todotext: string
+    priority: number
+}
 export default function TodoFormInput() {
-    /**
-     * Exemplo de uso do provider criado para tratar os states referente aos itens do todo
-     */
-    const { state, addTodo, removeTodo } = useTodos()
+    const [textInputValueTodo, setTextInputValueTodo] = useState<Todo['todotext']>('');
+    const [textInputValueTodoPriority, setTextInputValueTodoPriority] = useState<string>('');
+    const { state,addTodo } = useTodos()
     useEffect(() => {
-        addTodo('Hello world', 1);
-    }, []);
+        console.log(textInputValueTodo);
+        console.log(textInputValueTodoPriority);
+    }, [textInputValueTodo,textInputValueTodoPriority]);
+
+    const handleAddTodo = () => {
+        if (!textInputValueTodo.trim() || !textInputValueTodoPriority) {
+            Alert.alert("Erro", "Por favor, preencha os dois campos.");
+            return;
+        }
+
+        const priorityNumber = parseInt(textInputValueTodoPriority, 10);
+
+        if (isNaN(priorityNumber)) {
+            Alert.alert("Erro", "A prioridade deve ser um número.");
+            return;
+        }
+
+        addTodo(textInputValueTodo,priorityNumber);
+        console.log(state.todos)
+        setTextInputValueTodo('');
+        setTextInputValueTodoPriority('');
+    }
+
     return (
         <View style={styles.container}>
-            <Text>Componente de formulário do aplicativo TODOLIST</Text>
-            <StatusBar style="auto" />
+            <View>
+                <Text>{'O que fazer?'}</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={setTextInputValueTodo}
+                    value={textInputValueTodo} />
+
+                <Text>{'Prioridade'}</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={setTextInputValueTodoPriority}
+                    value={textInputValueTodoPriority}
+                    inputMode="numeric" />
+                <Button
+                    onPress={handleAddTodo}
+                    title={"Adicionar"}
+                    color="#841584"
+                    accessibilityLabel="Learn more about this purple button"
+                />
+            </View>
         </View>
     );
 }
@@ -26,4 +67,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    input: {
+        backgroundColor: '#ff0000ff',
+    }
 });
