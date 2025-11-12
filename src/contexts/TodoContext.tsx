@@ -23,13 +23,15 @@ type TodosState = {
 type Action =
     | { type: 'SET_TODOS_LIST'; payload: Todo[] }
     | { type: 'SET_LOADING'; payload: boolean }
-    | { type: 'ADD_TODO'; payload: string, priority: number }
+    | { type: 'ADD_TODO'; payload: string; priority: number }
+    | { type: 'UPDATE_TODO'; payload: string; priority: number; id: string }
     | { type: 'REMOVE_TODO'; payload: string }
     | { type: 'TOGGLE_TODO'; payload: string }
 
 type TodosContextType = {
     state: TodosState
     addTodo: (text: string, priority: number) => void
+    updateTodo: (id: string, text: string, priority: number) => void
     removeTodo: (id: string) => void
     toggleTodo: (id: string) => void
 }
@@ -42,22 +44,39 @@ const todosReducer = (state: TodosState, action: Action): TodosState => {
     switch (action.type) {
         case 'SET_LOADING':
             return { ...state, loading: action.payload }
+        
         case 'SET_TODOS_LIST':
             return { ...state, todos: action.payload, loading: false }
+        
         case 'ADD_TODO':
-            const UuidTodo = uuidv4();
             const newTodo: Todo = {
-                id: UuidTodo,
-                priority: 0, /** WIP - FUNÇÃO DE PRIORIDADE DA LISTA */
+                id: uuidv4(),
+                priority: action.priority,
                 todotext: action.payload,
                 completed: false,
             }
             return { ...state, todos: [...state.todos, newTodo] }
+        
+        case 'UPDATE_TODO':
+            return {
+                ...state,
+                todos: state.todos.map((todo) =>
+                    todo.id === action.id
+                        ? { 
+                            ...todo, 
+                            todotext: action.payload,
+                            priority: action.priority,
+                          }
+                        : todo
+                ),
+            }
+        
         case 'REMOVE_TODO':
             return {
                 ...state,
                 todos: state.todos.filter((todo) => todo.id !== action.payload),
             }
+        
         case 'TOGGLE_TODO':
             return {
                 ...state,
@@ -67,6 +86,7 @@ const todosReducer = (state: TodosState, action: Action): TodosState => {
                         : todo
                 ),
             }
+        
         default:
             return state
     }
@@ -90,7 +110,6 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
                     dispatch({ type: 'SET_LOADING', payload: false })
                 }
             } catch (e) {
-                console.error('Falha ao carregar todos.', e)
                 dispatch({ type: 'SET_LOADING', payload: false })
             }
         }
@@ -104,12 +123,18 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
     }, [state.todos, state.loading])
 
     const addTodo = (text: string, priority: number) => dispatch({ type: 'ADD_TODO', payload: text, priority })
+    
+    const updateTodo = (id: string, text: string, priority: number) => {
+        dispatch({ type: 'UPDATE_TODO', payload: text, priority, id })
+    }
+    
     const removeTodo = (id: string) => dispatch({ type: 'REMOVE_TODO', payload: id })
     const toggleTodo = (id: string) => dispatch({ type: 'TOGGLE_TODO', payload: id })
 
     const value = {
         state,
         addTodo,
+        updateTodo,
         removeTodo,
         toggleTodo,
     }

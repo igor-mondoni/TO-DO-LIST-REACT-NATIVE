@@ -10,8 +10,6 @@ export default function TodoScreen() {
   const [selectedItemData, setSelectedItemData] = useState({});
   
   const openModal = (item) => {
-    console.log("teste")
-    console.log(item)
     setIsModalVisible(true);
     setSelectedItemData(item);
   };
@@ -22,7 +20,7 @@ export default function TodoScreen() {
 
   return (
     <View style={styles.container}>
-      <TodoModalInputUpdate visible={isModalVisible} item={selectedItemData} onClose={() => closeModal}/>
+      <TodoModalInputUpdate visible={isModalVisible} item={selectedItemData} onClose={closeModal}/>
       <TodoFormInput />
       <TodoListTable openModal={openModal}/>
       <StatusBar style="auto" />

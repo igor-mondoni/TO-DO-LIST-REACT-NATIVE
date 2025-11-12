@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
-import { Modal, View, Text, Button, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Modal, View, Text, Button, StyleSheet, TextInput, Alert } from 'react-native';
+import { useTodos } from '../../contexts/TodoContext';
 
 type Todo = {
   id: string;
@@ -14,12 +15,44 @@ type TodoModalProps = {
 };
 
 export default function TodoModalInputUpdate({ visible, item, onClose }: TodoModalProps) {
-  if (!item) {
+  const { updateTodo } = useTodos()
+  const [textInputValueTodo, setTextInputValueTodo] = useState('');
+  const [textInputValueTodoPriority, setTextInputValueTodoPriority] = useState('');
+  const [todoId, setTodoId] = useState('');
+
+  useEffect(() => {
+    if (!item || Object.keys(item).length !== 0) {
+      setTextInputValueTodo(item.todotext);
+      setTextInputValueTodoPriority(item.priority.toString());
+      setTodoId(item.id);
+    } else {
+      setTextInputValueTodo('');
+      setTextInputValueTodoPriority('');
+      setTodoId('');
+    }
+  }, [item]);
+
+  if (!item || Object.keys(item).length === 0) {
     return null;
   }
-  useEffect(() => {
-    console.log(visible)
-  },[visible,item])
+
+  const handleUpdateTodo = () => {
+    if (!textInputValueTodo.trim() || !textInputValueTodoPriority) {
+      Alert.alert("Erro", "Por favor, preencha os dois campos.");
+      return;
+    }
+
+    const priorityNumber = parseInt(textInputValueTodoPriority, 10);
+
+    if (isNaN(priorityNumber)) {
+      Alert.alert("Erro", "A prioridade deve ser um número.");
+      return;
+    }
+
+    updateTodo(todoId, textInputValueTodo, priorityNumber);
+    setTextInputValueTodo('');
+    setTextInputValueTodoPriority('');
+  }
   return (
     <Modal
       animationType="slide"
@@ -31,11 +64,23 @@ export default function TodoModalInputUpdate({ visible, item, onClose }: TodoMod
         <View style={styles.modalView}>
           <Text style={styles.modalTitle}>Detalhes da Tarefa</Text>
           <Text style={styles.modalText}>
-            <Text style={{ fontWeight: 'bold' }}>Tarefa:</Text> {item.todotext}
+            <Text style={{ fontWeight: 'bold' }}>Tarefa:</Text>
+            <TextInput
+              onChangeText={setTextInputValueTodo}
+              value={textInputValueTodo}
+            />
           </Text>
           <Text style={styles.modalText}>
-            <Text style={{ fontWeight: 'bold' }}>Prioridade:</Text> {item.priority}
+            <Text style={{ fontWeight: 'bold' }}>Prioridade:</Text>
+            <TextInput
+              onChangeText={setTextInputValueTodoPriority}
+              value={textInputValueTodoPriority}
+              inputMode="numeric"
+              placeholder="0"
+              placeholderTextColor="#999"
+            />
           </Text>
+          <Button title="Salvar" onPress={handleUpdateTodo} color="#019b53ff" />
           <Button title="Fechar" onPress={onClose} color="#841584" />
         </View>
       </View>
