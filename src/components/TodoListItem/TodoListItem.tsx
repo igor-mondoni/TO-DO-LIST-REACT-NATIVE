@@ -1,20 +1,31 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View } from 'react-native';
 import { useTodos } from '../../contexts/TodoContext';
 import { useEffect } from 'react';
 
-export default function TodoListItem() {
-    const { state, addTodo, removeTodo } = useTodos()
-    useEffect(() => {
-        console.log(state);
-        addTodo('Adicionando todo',1);
-        console.log(state);
+type Todo = {
+  id: string; 
+  todotext: string;
+  priority: number;
+};
 
-    }, []);
+type TodoListItemProps = {
+  item: Todo;
+};
+
+export default function TodoListItem({ item }: TodoListItemProps) {
+    const { removeTodo } = useTodos()
+    const handleRemove = () => {
+        removeTodo(item.id);
+    };
     return (
-        <View style={styles.container}>
-            <Text>Componente de itens dos afazeres a colocar na tabela de itens</Text>
-            <StatusBar style="auto" />
+        <View>
+            <Text>{item.todotext} - {item.priority}</Text>
+            <Button
+                title="Remover"
+                onPress={handleRemove}
+                color="#ff3b30"
+            />
         </View>
     );
 }
