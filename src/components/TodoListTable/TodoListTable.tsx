@@ -1,5 +1,4 @@
 import { StyleSheet, Text, View, FlatList } from 'react-native';
-// 1. Removemos SafeAreaView e SafeAreaProvider
 import TodoListItem from '../TodoListItem/TodoListItem';
 import { useTodos } from '../../contexts/TodoContext';
 import React from 'react';

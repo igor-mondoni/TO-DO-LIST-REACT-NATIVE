@@ -30,7 +30,6 @@ type TodosContextType = {
     addTodo: (text: string) => void
     updateTodo: (id: string, text: string) => void
     removeTodo: (id: string) => void
-    toggleTodo: (id: string) => void
 }
 
 const TODOS_STORAGE_KEY = '@TodoAppReactNative:todos'
@@ -108,7 +107,7 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
     const addTodo = (text: string) => dispatch({ type: 'ADD_TODO', payload: text })
     
     const updateTodo = (id: string, text: string) => {
-        dispatch({ type: 'UPDATE_TODO', payload: text })
+        dispatch({ type: 'UPDATE_TODO', payload: text, id })
     }
     
     const removeTodo = (id: string) => dispatch({ type: 'REMOVE_TODO', payload: id })
