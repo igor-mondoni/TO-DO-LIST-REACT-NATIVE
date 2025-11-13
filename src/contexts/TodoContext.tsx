@@ -11,8 +11,6 @@ import { v4 as uuidv4 } from 'uuid'
 type Todo = {
     id: string
     todotext: string
-    priority: number
-    completed: boolean
 }
 
 type TodosState = {
@@ -23,15 +21,14 @@ type TodosState = {
 type Action =
     | { type: 'SET_TODOS_LIST'; payload: Todo[] }
     | { type: 'SET_LOADING'; payload: boolean }
-    | { type: 'ADD_TODO'; payload: string; priority: number }
-    | { type: 'UPDATE_TODO'; payload: string; priority: number; id: string }
+    | { type: 'ADD_TODO'; payload: string; }
+    | { type: 'UPDATE_TODO'; payload: string; id: string }
     | { type: 'REMOVE_TODO'; payload: string }
-    | { type: 'TOGGLE_TODO'; payload: string }
 
 type TodosContextType = {
     state: TodosState
-    addTodo: (text: string, priority: number) => void
-    updateTodo: (id: string, text: string, priority: number) => void
+    addTodo: (text: string) => void
+    updateTodo: (id: string, text: string) => void
     removeTodo: (id: string) => void
     toggleTodo: (id: string) => void
 }
@@ -51,10 +48,7 @@ const todosReducer = (state: TodosState, action: Action): TodosState => {
         case 'ADD_TODO':
             const newTodo: Todo = {
                 id: uuidv4(),
-                priority: action.priority,
-                todotext: action.payload,
-                completed: false,
-            }
+                todotext: action.payload            }
             return { ...state, todos: [...state.todos, newTodo] }
         
         case 'UPDATE_TODO':
@@ -65,7 +59,6 @@ const todosReducer = (state: TodosState, action: Action): TodosState => {
                         ? { 
                             ...todo, 
                             todotext: action.payload,
-                            priority: action.priority,
                           }
                         : todo
                 ),
@@ -75,16 +68,6 @@ const todosReducer = (state: TodosState, action: Action): TodosState => {
             return {
                 ...state,
                 todos: state.todos.filter((todo) => todo.id !== action.payload),
-            }
-        
-        case 'TOGGLE_TODO':
-            return {
-                ...state,
-                todos: state.todos.map((todo) =>
-                    todo.id === action.payload
-                        ? { ...todo, completed: !todo.completed }
-                        : todo
-                ),
             }
         
         default:
@@ -122,21 +105,19 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
         }
     }, [state.todos, state.loading])
 
-    const addTodo = (text: string, priority: number) => dispatch({ type: 'ADD_TODO', payload: text, priority })
+    const addTodo = (text: string) => dispatch({ type: 'ADD_TODO', payload: text })
     
-    const updateTodo = (id: string, text: string, priority: number) => {
-        dispatch({ type: 'UPDATE_TODO', payload: text, priority, id })
+    const updateTodo = (id: string, text: string) => {
+        dispatch({ type: 'UPDATE_TODO', payload: text })
     }
     
     const removeTodo = (id: string) => dispatch({ type: 'REMOVE_TODO', payload: id })
-    const toggleTodo = (id: string) => dispatch({ type: 'TOGGLE_TODO', payload: id })
 
     const value = {
         state,
         addTodo,
         updateTodo,
         removeTodo,
-        toggleTodo,
     }
 
     return <TodosContext.Provider value={value}>{children}</TodosContext.Provider>

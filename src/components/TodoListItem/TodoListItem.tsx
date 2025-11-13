@@ -4,7 +4,6 @@ import { useTodos } from '../../contexts/TodoContext';
 type Todo = {
     id: string;
     todotext: string;
-    priority: number;
 };
 
 type TodoListItemProps = {
@@ -28,15 +27,9 @@ export default function TodoListItem({ item, openModal }: TodoListItemProps) {
                 }
             ]}
         >
-            <View style={styles.textAndPriorityContainer}>
+            <View style={styles.textContainer}>
                 <Text style={styles.todoText}>{item.todotext}</Text>
-                <Text style={[styles.priorityText, { 
-                    color: item.priority === 1 ? '#E74C3C' :
-                           item.priority === 2 ? '#F39C12' :
-                           '#2ECC71'
-                }]}>
-                    Prioridade: {item.priority}
-                </Text>
+               
             </View>
 
             <Pressable 
@@ -72,7 +65,7 @@ const styles = StyleSheet.create({
         shadowRadius: 1.00,
         elevation: 1,
     },
-    textAndPriorityContainer: {
+    textContainer: {
         flex: 1,
         marginRight: 10,
     },
@@ -81,10 +74,6 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         color: '#333',
         marginBottom: 4,
-    },
-    priorityText: {
-        fontSize: 14,
-        fontWeight: 'bold',
     },
     removeButton: {
         width: 40,

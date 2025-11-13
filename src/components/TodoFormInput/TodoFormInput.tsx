@@ -5,29 +5,14 @@ import { useTodos } from '../../contexts/TodoContext';
 
 type Todo = {
     todotext: string
-    priority: number
 }
 export default function TodoFormInput() {
     const [textInputValueTodo, setTextInputValueTodo] = useState<Todo['todotext']>('');
-    const [textInputValueTodoPriority, setTextInputValueTodoPriority] = useState<string>('');
     const { state, addTodo } = useTodos()
 
     const handleAddTodo = () => {
-        if (!textInputValueTodo.trim() || !textInputValueTodoPriority) {
-            Alert.alert("Erro", "Por favor, preencha os dois campos.");
-            return;
-        }
-
-        const priorityNumber = parseInt(textInputValueTodoPriority, 10);
-
-        if (isNaN(priorityNumber)) {
-            Alert.alert("Erro", "A prioridade deve ser um número.");
-            return;
-        }
-
-        addTodo(textInputValueTodo, priorityNumber);
+        addTodo(textInputValueTodo);
         setTextInputValueTodo('');
-        setTextInputValueTodoPriority('');
     }
 
     return (
@@ -40,16 +25,6 @@ export default function TodoFormInput() {
                     onChangeText={setTextInputValueTodo}
                     value={textInputValueTodo}
                     placeholder="Descreva o que deve ser feito"
-                    placeholderTextColor="#999"
-                />
-
-                <Text style={styles.label}>{'Prioridade'}</Text>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={setTextInputValueTodoPriority}
-                    value={textInputValueTodoPriority}
-                    inputMode="numeric"
-                    placeholder="0"
                     placeholderTextColor="#999"
                 />
 

@@ -5,7 +5,6 @@ import { useTodos } from '../../contexts/TodoContext';
 type Todo = {
   id: string;
   todotext: string;
-  priority: number;
 };
 
 type TodoModalProps = {
@@ -17,36 +16,26 @@ type TodoModalProps = {
 export default function TodoModalInputUpdate({ visible, item, onClose }: TodoModalProps) {
   const { updateTodo } = useTodos();
   const [textInputValueTodo, setTextInputValueTodo] = useState('');
-  const [textInputValueTodoPriority, setTextInputValueTodoPriority] = useState('');
   const [todoId, setTodoId] = useState('');
 
   useEffect(() => {
     if (item && item.id) {
       setTextInputValueTodo(item.todotext);
-      setTextInputValueTodoPriority(item.priority.toString());
       setTodoId(item.id);
     } else {
       setTextInputValueTodo('');
-      setTextInputValueTodoPriority('');
       setTodoId('');
     }
   }, [item]);
 
 
   const handleUpdateTodo = () => {
-    if (!textInputValueTodo.trim() || !textInputValueTodoPriority) {
-      Alert.alert("Erro", "Por favor, preencha os dois campos.");
+    if (!textInputValueTodo.trim()) {
+      Alert.alert("Erro", "Por favor, preencha os campos.");
       return;
     }
 
-    const priorityNumber = parseInt(textInputValueTodoPriority, 10);
-
-    if (isNaN(priorityNumber)) {
-      Alert.alert("Erro", "A prioridade deve ser um número.");
-      return;
-    }
-
-    updateTodo(todoId, textInputValueTodo, priorityNumber);
+    updateTodo(todoId, textInputValueTodo);
     onClose();
   }
 
@@ -67,16 +56,6 @@ export default function TodoModalInputUpdate({ visible, item, onClose }: TodoMod
             onChangeText={setTextInputValueTodo}
             value={textInputValueTodo}
             placeholder="Descreva o que deve ser feito"
-            placeholderTextColor="#999"
-          />
-
-          <Text style={styles.label}>Prioridade</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={setTextInputValueTodoPriority}
-            value={textInputValueTodoPriority}
-            inputMode="numeric"
-            placeholder="0"
             placeholderTextColor="#999"
           />
 
