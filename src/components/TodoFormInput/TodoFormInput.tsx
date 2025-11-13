@@ -24,7 +24,6 @@ export default function TodoFormInput() {
         <View style={styles.container}>
             <View style={styles.formContainer}>
 
-                <Text style={styles.label}>{'O que fazer?'}</Text>
                 <TextInput
                     style={styles.input}
                     onChangeText={setTextInputValueTodo}
@@ -64,14 +63,6 @@ const styles = StyleSheet.create({
         shadowRadius: 2.62,
         elevation: 4,
     },
-
-    label: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#333',
-        marginBottom: 8,
-    },
-
     input: {
         backgroundColor: '#FCFCFC',
         height: 50,

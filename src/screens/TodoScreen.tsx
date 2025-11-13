@@ -21,6 +21,7 @@ export default function TodoScreen() {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>To-do List</Text>
       <TodoModalInputUpdate visible={isModalVisible} item={selectedItemData} onClose={closeModal}/>
       <TodoFormInput />
       <TodoListTable openModal={openModal}/>
@@ -38,4 +39,10 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 20,
+  }
 });
