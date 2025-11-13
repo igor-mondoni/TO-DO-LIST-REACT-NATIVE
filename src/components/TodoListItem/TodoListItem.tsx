@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, ToastAndroid, View } from 'react-native';
 import { useTodos } from '../../contexts/TodoContext';
 
 type Todo = {
@@ -15,11 +15,16 @@ export default function TodoListItem({ item, openModal }: TodoListItemProps) {
     const { removeTodo } = useTodos();
     const handleRemove = () => {
         removeTodo(item.id);
+        ToastAndroid.showWithGravity(
+            'Removido com sucesso!',
+            2000,
+            ToastAndroid.BOTTOM
+        );
     };
 
     return (
-        <Pressable 
-            onPress={() => openModal(item)} 
+        <Pressable
+            onPress={() => openModal(item)}
             style={({ pressed }) => [
                 styles.itemContainer,
                 {
@@ -29,11 +34,11 @@ export default function TodoListItem({ item, openModal }: TodoListItemProps) {
         >
             <View style={styles.textContainer}>
                 <Text style={styles.todoText}>{item.todotext}</Text>
-               
+
             </View>
 
-            <Pressable 
-                onPress={handleRemove} 
+            <Pressable
+                onPress={handleRemove}
                 style={({ pressed }) => [
                     styles.removeButton,
                     {
@@ -55,7 +60,7 @@ const styles = StyleSheet.create({
         padding: 15,
         borderRadius: 8,
         marginVertical: 8,
-        
+
         shadowColor: "#000",
         shadowOffset: {
             width: 0,

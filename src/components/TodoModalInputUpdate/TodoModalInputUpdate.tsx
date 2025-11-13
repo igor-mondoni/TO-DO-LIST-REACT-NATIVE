@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, View, Text, StyleSheet, TextInput, Alert, Pressable } from 'react-native';
+import { Modal, View, Text, StyleSheet, TextInput, Alert, Pressable, ToastAndroid } from 'react-native';
 import { useTodos } from '../../contexts/TodoContext';
 
 type Todo = {
@@ -36,6 +36,11 @@ export default function TodoModalInputUpdate({ visible, item, onClose }: TodoMod
     }
 
     updateTodo(todoId, textInputValueTodo);
+    ToastAndroid.showWithGravity(
+      'Atualizado com sucesso!',
+      2000,
+      ToastAndroid.BOTTOM
+    );
     onClose();
   }
 

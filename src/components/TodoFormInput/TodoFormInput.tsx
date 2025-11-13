@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, Alert, ToastAndroid } from 'react-native';
 import { useTodos } from '../../contexts/TodoContext';
 
 type Todo = {
@@ -12,6 +12,11 @@ export default function TodoFormInput() {
 
     const handleAddTodo = () => {
         addTodo(textInputValueTodo);
+        ToastAndroid.showWithGravity(
+            'Adicionado com sucesso!',
+            2000,
+            ToastAndroid.BOTTOM
+        );
         setTextInputValueTodo('');
     }
 
