@@ -36,12 +36,12 @@ export default function TodoModalInputUpdate({ visible, item, onClose }: TodoMod
     }
 
     updateTodo(todoId, textInputValueTodo);
+    onClose();
     ToastAndroid.showWithGravity(
       'Atualizado com sucesso!',
       2000,
       ToastAndroid.BOTTOM
     );
-    onClose();
   }
 
   return (

@@ -12,12 +12,12 @@ export default function TodoFormInput() {
 
     const handleAddTodo = () => {
         addTodo(textInputValueTodo);
+        setTextInputValueTodo('');
         ToastAndroid.showWithGravity(
             'Adicionado com sucesso!',
             2000,
             ToastAndroid.BOTTOM
         );
-        setTextInputValueTodo('');
     }
 
     return (
